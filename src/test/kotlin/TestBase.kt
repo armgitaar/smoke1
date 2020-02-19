@@ -1,6 +1,6 @@
-import __PACKAGE__.ConsoleKernel
-import __PACKAGE__.addRoutes
-import __PACKAGE__.database.factories.UserFactory
+import com.smoke.st2.ConsoleKernel
+import com.smoke.st2.addRoutes
+import com.smoke.st2.database.factories.UserFactory
 import dev.alpas.auth.Authenticatable
 import dev.alpas.make
 import dev.alpas.ozone.from

@@ -1,4 +1,4 @@
-package __PACKAGE__.configs
+package com.smoke.st2.configs
 
 import dev.alpas.Environment
 import dev.alpas.mailing.drivers.LocalMailDriver

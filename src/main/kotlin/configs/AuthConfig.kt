@@ -1,6 +1,6 @@
-package __PACKAGE__.configs
+package com.smoke.st2.configs
 
-import __PACKAGE__.entities.Users
+import com.smoke.st2.entities.Users
 import dev.alpas.Environment
 import dev.alpas.auth.SessionAuthChannel
 import dev.alpas.auth.AuthConfig as BaseConfig

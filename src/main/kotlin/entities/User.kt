@@ -1,4 +1,4 @@
-package __PACKAGE__.entities
+package com.smoke.st2.entities
 
 import dev.alpas.auth.BaseUser
 import dev.alpas.auth.BaseUsersTable

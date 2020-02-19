@@ -1,4 +1,4 @@
-package __PACKAGE__
+package com.smoke.st2
 
 import dev.alpas.Alpas
 

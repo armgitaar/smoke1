@@ -1,7 +1,7 @@
-package __PACKAGE__.database.factories
+package com.smoke.st2.database.factories
 
-import __PACKAGE__.entities.User
-import __PACKAGE__.entities.Users
+import com.smoke.st2.entities.User
+import com.smoke.st2.entities.Users
 import dev.alpas.hashing.Hasher
 import dev.alpas.ozone.EntityFactory
 import dev.alpas.ozone.faker

@@ -1,6 +1,6 @@
-package __PACKAGE__.database.migrations
+package com.smoke.st2.database.migrations
 
-import __PACKAGE__.entities.Users
+import com.smoke.st2.entities.Users
 import dev.alpas.auth.PasswordResetTokens
 import dev.alpas.ozone.migration.Migration
 
