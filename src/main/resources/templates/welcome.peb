@@ -19,7 +19,7 @@
     {% endif %}
 </div>
 
-<div class="container p-10">
+<div class="container mx-auto pt-20 px-20">
     <div class="w-full flex justify-between mx-auto">
 
         <div class="w-1/2 text-4xl font-extrabold text-gray-700">
