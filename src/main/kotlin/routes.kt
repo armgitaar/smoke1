@@ -11,6 +11,7 @@ fun Router.addRoutes() = apply {
         webRoutesGroup()
     }.middlewareGroup("web")
 
+
     apiRoutes()
 }
 
@@ -18,11 +19,15 @@ private fun RouteGroup.webRoutesGroup() {
     get("/", TaskController::class).name("welcome")
     // register more web routes here
     post("/", TaskController::class).name("store")
+    delete("/", TaskController::class).name("delete")
+    update("/", TaskController::class).name("update")
 
    /* group("tasks") {
         addTaskRoutes()
     }.name("tasks")*/
 }
+
+
 
 /*private fun RouteGroup.addTaskRoutes() {
     get("/", TaskController::class).name("list")

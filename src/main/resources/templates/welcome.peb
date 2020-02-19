@@ -12,14 +12,15 @@
 <body>
 
 <div class="container">
-    <div class="jumbotron">
+    <div>
 
         <h1>To-Do List</h1>
 
         <form method="POST" action="{{ route('store') }}">
             <div class="form-group">
                 <label for="linkField">Add To-Do</label>
-                <input type="text" class="form-control" id="task" placeholder="Go fishin'">
+                {% csrf %}
+                <input type="text" class="form-control" id="task" name="newTask" autofocus="autofocus" placeholder="Go fishin'">
             </div>
             <button type="submit" class="btn btn-primary">Add</button>
         </form>
@@ -53,8 +54,24 @@
 
 
         <li>
+            <div class="py-4 flex">
+                <form action="{{ route('update', {"id": task.id}) }}" method="PATCH">
+                {% csrf %}
+                    <input type="checkbox" name="_method" value="complete" onChange="this.form.submit()" />
+
+
+                </form>
+            </div>
             {{ task.name }}
-            ({{ task.createdAt }})
+            <div class="py-4 flex">
+                <form action="{{ route('delete', {"id": task.id}) }}" method="POST">
+                {% csrf %}
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button class="hover:text-red-800 text-red-600 text-sm uppercase hover-target">
+                        Delete
+                    </button>
+                </form>
+            </div>
         </li>
         {% endfor %}
     </ul>
@@ -62,6 +79,17 @@
     <h5>Total To-Do's: {{ total }}</h5>
 
     {% endif %}
+</div>
+
+<div class="container-fluid">
+
+    {% if hasFlash('success') %}
+    <div class="alert alert-success">
+        {{ flash('success') }}
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
 </div>
 
 </body>

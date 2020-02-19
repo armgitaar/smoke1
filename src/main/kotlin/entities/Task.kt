@@ -24,12 +24,4 @@ object Tasks : OzoneTable<Task>("tasks") {
     val createdAt by createdAt()
     val updatedAt by updatedAt()
 
-
-    fun getTasks(): List<Task> {
-        return select()
-            .orderBy(createdAt.desc())
-            .map { row -> createEntity(row) }
-    }
-
-
 }
