@@ -26,7 +26,7 @@ class TaskController : Controller() {
         call.applyRules("newTask") {
             required()
             min(2)
-        }
+        }.validate()
 
         Tasks.create() {
             it.name to call.stringParam("newTask")
