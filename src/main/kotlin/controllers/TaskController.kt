@@ -6,10 +6,8 @@ import dev.alpas.ozone.create
 import dev.alpas.routing.Controller
 import com.smoke.st2.entities.Tasks
 import dev.alpas.ozone.latest
-import me.liuwj.ktorm.dsl.count
-import me.liuwj.ktorm.dsl.delete
-import me.liuwj.ktorm.dsl.eq
-import me.liuwj.ktorm.dsl.update
+
+import me.liuwj.ktorm.dsl.*
 import me.liuwj.ktorm.entity.toList
 
 
@@ -17,7 +15,9 @@ class TaskController : Controller() {
     fun index(call: HttpCall) {
         val tasks = Tasks.latest().toList()
         val total = Tasks.count()
-        call.render("welcome", mapOf("tasks" to tasks, "total" to total))
+        val completed = Tasks.count { it.completed }
+
+        call.render("welcome", mapOf("tasks" to tasks, "total" to total, "completed" to completed ))
     }
 
     fun store(call: HttpCall) {
@@ -28,29 +28,44 @@ class TaskController : Controller() {
             it.createdAt to now
             it.updatedAt to now
         }
-        flash("success", "Successfully added task")
+        flash("success", "Successfully added to-do")
         call.redirect().back()
     }
 
     fun delete(call: HttpCall) {
         val id = call.longParam("id").orAbort()
         Tasks.delete { it.id eq id }
-        flash("success", "Successfully deleted the project!")
+        flash("success", "Successfully removed to-do")
         call.redirect().back()
     }
 
     fun update(call: HttpCall) {
-        println("hey")
         val id = call.longParam("id").orAbort()
-        println(id)
-        Tasks
-            .update { it.completed to 1
-                where {
-                    Tasks.id eq id
+        val currentState = Tasks.select().where { Tasks.id eq id }.map { row -> row[Tasks.completed] }
+
+         if (currentState.first()!!) {
+            Tasks
+                .update {
+                    it.completed to false
+                    where {
+                        Tasks.id eq id
+                    }
                 }
-            }
-        flash("success", "Successfully completed the task!")
-        call.redirect().back()
+             flash("success", "Successfully updated to-do")
+             call.redirect().back()
+        } else {
+            Tasks
+                .update {
+                    it.completed to true
+                    where {
+                        Tasks.id eq id
+                    }
+                }
+             flash("success", "Successfully completed to-do")
+             call.redirect().back()
+        }
+
     }
+
 
 }

@@ -4,92 +4,95 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Alpas - The Rapid and Delightful Kotlin Web Framework</title>
+    <title>Alpas - To-Do List</title>
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-orange-100 h-screen">
 
-<div class="container">
-    <div>
-
-        <h1>To-Do List</h1>
-
-        <form method="POST" action="{{ route('store') }}">
-            <div class="form-group">
-                <label for="linkField">Add To-Do</label>
-                {% csrf %}
-                <input type="text" class="form-control" id="task" name="newTask" autofocus="autofocus" placeholder="Go fishin'">
-            </div>
-            <button type="submit" class="btn btn-primary">Add</button>
-        </form>
-
-        <div id="result" style="display: none" class="mt-3">
-            <label for="shortURL">
-                Use this link:
-            </label>
-
-            <input type="text" class="form-control" id="shortURL">
+<div class="container-fluid fixed w-full flex justify-center">
+    {% if hasFlash('success') %}
+        <div class="w-1/3 text-white bg-green-500 py-2 px-10 text-center">
+            {{ flash('success') }}
         </div>
-
-        <div id="error" style="display: none" class="mt-3">
-           <div class="alert alert-danger">
-               <span id="errorMessage"></span>
-           </div>
-        </div>
-
-    </div>
-
-    <h4>Latest To-Do's</h4>
-
-    {% if total == 0 %}
-    <div class="alert alert-warning">
-        No tasks.
-    </div>
-    {% else %}
-
-    <ul>
-        {% for task in tasks %}
-
-
-        <li>
-            <div class="py-4 flex">
-                <form action="{{ route('update', {"id": task.id}) }}" method="PATCH">
-                {% csrf %}
-                    <input type="checkbox" name="_method" value="complete" onChange="this.form.submit()" />
-
-
-                </form>
-            </div>
-            {{ task.name }}
-            <div class="py-4 flex">
-                <form action="{{ route('delete', {"id": task.id}) }}" method="POST">
-                {% csrf %}
-                    <input type="hidden" name="_method" value="delete"/>
-                    <button class="hover:text-red-800 text-red-600 text-sm uppercase hover-target">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-
-    <h5>Total To-Do's: {{ total }}</h5>
-
     {% endif %}
 </div>
 
-<div class="container-fluid">
+<div class="container p-10">
+    <div class="w-full flex justify-between mx-auto">
 
-    {% if hasFlash('success') %}
-    <div class="alert alert-success">
-        {{ flash('success') }}
+        <div class="w-1/2 text-4xl font-extrabold text-gray-700">
+            To-Do List
+        </div>
+        <div class="text-center">
+            <h5 class="text-4xl font-extrabold text-green-600"> {{ completed }} / {{ total }}</h5>
+            <p class="text-sm text-gray-600">completed / total</p>
+        </div>
+
     </div>
-    {% endif %}
 
-    {% block content %}{% endblock %}
+    <div>
+        <form method="POST" action="{{ route('store') }}">
+            <div class="form-group">
+                <p class="text-sm text-gray-600">Add To-Do</p>
+                {% csrf %}
+                <input type="text" class="form-control mt-2" id="task" name="newTask" autofocus="autofocus" placeholder="Go fishin'">
+                <button type="submit" class="btn btn-blue">Add</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="py-10">
+
+        {% if total == 0 %}
+            <div class="alert alert-warning">
+                Add some to-dos!
+            </div>
+        {% else %}
+            <div>
+                <ul>
+                    {% for task in tasks %}
+                    <li>
+                        <div class="flex pt-1">
+                            <div class="pr-4">
+                                <form action="{{ route('update', {"id": task.id}) }}" method="POST">
+                                    {% if task.completed %}
+                                        {% csrf %}
+                                        <input type="hidden" name="_method" value="patch"/>
+                                        <input type="checkbox" onChange="this.form.submit()" checked />
+                                    {% else %}
+                                        {% csrf %}
+                                        <input type="hidden" name="_method" value="patch"/>
+                                        <input type="checkbox" onChange="this.form.submit()" />
+                                    {% endif %}
+                                </form>
+                            </div>
+                            {% if task.completed %}
+                                <div class="line-through">
+                                      {{ task.name }}
+                                </div>
+                            {% else %}
+                                <div class="">
+                                    {{ task.name }}
+                                </div>
+                            {% endif %}
+                            <div class="pl-3">
+                                <form action="{{ route('delete', {"id": task.id}) }}" method="POST">
+                                {% csrf %}
+                                    <input type="hidden" name="_method" value="delete"/>
+                                    <button class="hover:text-red-800 text-red-600 text-sm hover-target">
+                                        remove
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
 </div>
 
 </body>

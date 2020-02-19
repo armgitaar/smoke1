@@ -20,7 +20,7 @@ private fun RouteGroup.webRoutesGroup() {
     // register more web routes here
     post("/", TaskController::class).name("store")
     delete("/", TaskController::class).name("delete")
-    update("/", TaskController::class).name("update")
+    patch("/", TaskController::class).name("update")
 
    /* group("tasks") {
         addTaskRoutes()
