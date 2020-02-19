@@ -26,7 +26,7 @@
             To-Do List
         </div>
         <div class="text-center">
-            <h5 class="text-4xl font-extrabold text-green-600"> {{ completed }} / {{ total }}</h5>
+            <h5 class="text-4xl font-extrabold text-blue-600"> {{ completed }} / {{ total }}</h5>
             <p class="text-sm text-gray-600">completed / total</p>
         </div>
 
@@ -35,10 +35,9 @@
     <div>
         <form method="POST" action="{{ route('store') }}">
             <div class="form-group">
-                <p class="text-sm text-gray-600">Add To-Do</p>
                 {% csrf %}
-                <input type="text" class="form-control mt-2" id="task" name="newTask" autofocus="autofocus" placeholder="Go fishin'">
-                <button type="submit" class="btn btn-blue">Add</button>
+                <input type="text" class="form-control mt-2 w-1/3" id="task" name="newTask" autofocus="autofocus" placeholder="Go fishin'">
+                <button type="submit" class="">Add</button>
             </div>
         </form>
     </div>
